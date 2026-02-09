@@ -1,0 +1,217 @@
+:root {
+    --primary: #f2b32c;
+    --primary-hover: #F4511E;
+    --bg: #00002E;
+    --text: #FFFFFF;
+    --text-secondary: #94a3b8;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+    --progress-bg: rgba(255, 255, 255, 0.1);
+    --success: #4CAF50;
+}
+
+body {
+    background-color: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    /* Setup in index.css generally, but ensuring here */
+}
+
+/* Container */
+.onboarding-container {
+    max-width: 600px;
+    margin: 0 auto;
+    min-height: 100vh;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header & Progress */
+.onboarding-header {
+    margin-bottom: 24px;
+}
+
+.progress-bar-container {
+    height: 12px;
+    background-color: var(--progress-bg);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: var(--success);
+    border-radius: 10px;
+    transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.step-indicator {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+/* Main Content Area */
+.onboarding-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    animation: slideIn 0.3s ease-out;
+}
+
+.question-title {
+    font-size: 1.8rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+.question-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 32px;
+}
+
+/* Cards & Inputs */
+.option-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+.option-card {
+    background-color: var(--bg);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    text-align: left;
+}
+
+.option-card:hover {
+    border-color: var(--primary);
+    background-color: #FFF3E0;
+    transform: translateY(-2px);
+}
+
+.option-card.selected {
+    border-color: var(--primary);
+    /* Orange Border */
+    background-color: #FFF3E0;
+    /* Light Orange BG */
+    border-width: 3px;
+    box-shadow: 0 4px 12px rgba(255, 112, 67, 0.2);
+}
+
+.option-icon {
+    width: 48px;
+    height: 48px;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 24px;
+}
+
+/* Form Inputs */
+.form-input-group {
+    margin-bottom: 20px;
+}
+
+.form-input-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95rem;
+}
+
+.form-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    outline: none;
+}
+
+.form-input:focus {
+    border-color: var(--primary);
+}
+
+/* Footer & Buttons */
+.onboarding-footer {
+    margin-top: 24px;
+}
+
+.primary-btn {
+    width: 100%;
+    padding: 16px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.1s, background-color 0.2s;
+    box-shadow: 0 4px 0 #D84315;
+    /* Chunky Button Shadow */
+}
+
+.primary-btn:active {
+    transform: translateY(4px);
+    box-shadow: none;
+}
+
+.primary-btn:disabled {
+    background-color: #BDBDBD;
+    box-shadow: none;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.secondary-btn {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    padding: 12px;
+    margin-top: 12px;
+    width: 100%;
+}
+
+.secondary-btn:hover {
+    color: var(--text);
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (min-width: 600px) {
+    .option-grid {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+}

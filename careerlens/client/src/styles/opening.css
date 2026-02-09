@@ -1,0 +1,506 @@
+/* Global Reset & Typography */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --primary-gradient: linear-gradient(135deg, #F2B42D 0%, #DD785E 100%);
+    --secondary-gradient: linear-gradient(135deg, #F2B42D 0%, #D7425E 100%);
+    --bg-color: transparent;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --border-color: rgba(255, 255, 255, 0.08);
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
+    --accent-glow: #F2B42D;
+}
+
+.opening-page {
+    background: transparent;
+    min-height: calc(100vh - 64px);
+    color: var(--text-main);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 2rem;
+    overflow-x: hidden;
+    font-family: inherit;
+}
+
+/* Header */
+.opening-page header {
+    text-align: center;
+    margin-bottom: 4rem;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+.opening-page h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    background: var(--secondary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.5rem;
+    letter-spacing: -1px;
+}
+
+.opening-page .subtitle {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Main Container */
+.opening-page .container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2.5rem;
+    width: 100%;
+    max-width: 1400px;
+}
+
+/* Card Styling (Glassmorphism) */
+.opening-page .search-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.opening-page .search-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--primary-gradient);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.opening-page .search-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.opening-page .search-card:hover::before {
+    opacity: 1;
+}
+
+/* Card Content */
+.opening-page .card-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-gradient);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: white;
+}
+
+.opening-page .card-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+}
+
+.opening-page .card-desc {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+}
+
+/* Form Elements */
+.opening-page .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.opening-page label {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    margin-left: 0.25rem;
+}
+
+.opening-page input,
+.opening-page select {
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem 1.25rem;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.opening-page select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1em;
+}
+
+.opening-page select option {
+    background-color: #1e293b;
+    color: white;
+}
+
+.opening-page input:focus,
+.opening-page select:focus {
+    background: rgba(0, 0, 0, 0.3);
+    border-color: #a18cd1;
+    box-shadow: 0 0 0 4px rgba(161, 140, 209, 0.1);
+}
+
+.opening-page input::placeholder {
+    color: rgba(148, 163, 184, 0.5);
+}
+
+/* Button */
+.opening-page .search-btn {
+    margin-top: auto;
+    background: var(--primary-gradient);
+    border: none;
+    padding: 1rem;
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.opening-page .search-btn:hover:not(:disabled) {
+    filter: brightness(1.1);
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px -5px rgba(118, 75, 162, 0.4);
+}
+
+.opening-page .search-btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.opening-page .search-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* View Results Button (Green) */
+.opening-page .view-results-btn {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    border: none;
+    padding: 0.875rem 1rem;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    flex: 1;
+}
+
+.opening-page .view-results-btn:hover {
+    filter: brightness(1.15);
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px -5px rgba(16, 185, 129, 0.4);
+}
+
+.opening-page .view-results-btn:active {
+    transform: scale(0.98);
+}
+
+/* Button Group */
+.opening-page .button-group {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+/* Download Button (Blue/Purple) */
+.opening-page .download-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.opening-page .download-btn:hover {
+    filter: brightness(1.15);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+}
+
+.opening-page .download-btn:active {
+    transform: translateY(0);
+}
+
+/* Results Area Styling */
+.opening-page .search-results-area,
+.opening-page .college-results-area {
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 1400px;
+}
+
+/* AI Insights */
+.opening-page .ai-insights {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem;
+    border-radius: 16px;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.opening-page .ai-insights h3 {
+    margin-bottom: 0.5rem;
+    color: #a18cd1;
+}
+
+.opening-page .ai-insights p {
+    line-height: 1.6;
+}
+
+/* Job Results */
+.opening-page .job-listings h3,
+.opening-page .college-results-area h3 {
+    margin: 2rem 0 1rem;
+    color: #fff;
+    text-align: center;
+}
+
+.opening-page .job-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.opening-page .job-card {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.opening-page .job-card h4 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.opening-page .job-company {
+    color: #a18cd1;
+    margin-bottom: 0.5rem;
+}
+
+.opening-page .job-location {
+    color: #94a3b8;
+    font-size: 0.9rem;
+}
+
+.opening-page .job-link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #667eea;
+    text-decoration: none;
+}
+
+.opening-page .job-link:hover {
+    text-decoration: underline;
+}
+
+/* Internship Results */
+.opening-page .internship-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.opening-page .internship-card {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.opening-page .internship-card:hover {
+    border-color: rgba(161, 140, 209, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+.opening-page .internship-card h4 {
+    font-size: 1.2rem;
+    color: #fff;
+    margin-bottom: 0.75rem;
+}
+
+.opening-page .internship-company {
+    color: #a18cd1;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.opening-page .internship-location {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.opening-page .internship-stipend {
+    color: #667eea;
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 0.75rem;
+}
+
+.opening-page .internship-details {
+    color: #cbd5e1;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin-top: 0.75rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* College Results */
+.opening-page .college-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.opening-page .college-card {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.opening-page .college-card h4 {
+    font-size: 1.1rem;
+    color: #667eea;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.opening-page .college-info {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.opening-page .college-info p {
+    margin: 0.25rem 0;
+}
+
+.opening-page .college-rank {
+    display: inline-block;
+    background: #764ba2;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.opening-page .college-details {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.4;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.opening-page .container>div:nth-child(1) {
+    animation: fadeInUp 0.6s ease-out 0.2s backwards;
+}
+
+.opening-page .container>div:nth-child(2) {
+    animation: fadeInUp 0.6s ease-out 0.4s backwards;
+}
+
+.opening-page .container>div:nth-child(3) {
+    animation: fadeInUp 0.6s ease-out 0.6s backwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .opening-page h1 {
+        font-size: 2.5rem;
+    }
+
+    .opening-page .container {
+        grid-template-columns: 1fr;
+    }
+
+    .opening-page .job-grid,
+    .opening-page .internship-grid,
+    .opening-page .college-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Onboarding: Choose Your Path | CareerFlow</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2b32c",
+                        "background-light": "#f8f7f5",
+                        "background-dark": "#0b0f1a", // Deep navy as requested
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .glow-blue:hover {
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .glow-teal:hover {
+            box-shadow: 0 0 30px rgba(20, 184, 166, 0.15);
+        }
+
+        .glow-pink:hover {
+            box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);
+        }
+
+        .selected-card {
+            border: 2px solid #f2b32c !important;
+            background: rgba(242, 179, 44, 0.05);
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display text-white transition-colors duration-300">
+    <div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+        <!-- Header / Progress Bar Section -->
+        <header class="w-full max-w-[960px] mx-auto pt-8 px-6">
+            <div class="flex flex-col gap-3">
+                <div class="flex justify-between items-end">
+                    <div class="flex flex-col">
+                        <span class="text-primary text-xs font-bold uppercase tracking-widest mb-1">Step 2 of 5</span>
+                        <p class="text-white/60 text-sm font-medium">Onboarding Progress</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-white text-sm font-bold">40% Complete</span>
+                    </div>
+                </div>
+                <div class="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
+                    <div class="h-full bg-primary transition-all duration-500 rounded-full" style="width: 40%;"></div>
+                </div>
+            </div>
+        </header>
+        <!-- Main Content Container -->
+        <main class="flex-1 flex flex-col items-center justify-center px-6 py-12">
+            <!-- Headline Text Section -->
+            <div class="max-w-[720px] w-full mb-12 text-center">
+                <h1 class="text-white tracking-tight text-4xl md:text-5xl font-bold leading-tight mb-4">
+                    Choose Your Path
+                </h1>
+                <p class="text-white/70 text-lg font-normal leading-relaxed">
+                    Select the stage that best describes your current journey to personalize your AI experience.
+                </p>
+            </div>
+            <!-- Path Selection Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-[1024px]">
+                <!-- School Student Card -->
+                <div class="glass-card glow-blue group flex flex-col items-center p-8 rounded-xl cursor-pointer">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-blue-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-blue-400 text-3xl">school</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">School Student</h3>
+                    <p class="text-white/50 text-center text-sm leading-relaxed">
+                        Exploring foundations and early career interests.
+                    </p>
+                    <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-primary text-xs font-bold flex items-center gap-1">
+                            SELECT <span class="material-symbols-outlined text-sm">chevron_right</span>
+                        </span>
+                    </div>
+                </div>
+                <!-- College Student Card - Example State: Hover/Selected Look -->
+                <div
+                    class="glass-card glow-teal group flex flex-col items-center p-8 rounded-xl cursor-pointer ring-1 ring-white/10">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-teal-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-teal-400 text-3xl">terminal</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">College Student</h3>
+                    <p class="text-white/50 text-center text-sm leading-relaxed">
+                        Specializing in fields and preparing for the market.
+                    </p>
+                    <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-primary text-xs font-bold flex items-center gap-1">
+                            SELECT <span class="material-symbols-outlined text-sm">chevron_right</span>
+                        </span>
+                    </div>
+                </div>
+                <!-- Industry Professional Card -->
+                <div class="glass-card glow-pink group flex flex-col items-center p-8 rounded-xl cursor-pointer">
+                    <div
+                        class="w-16 h-16 rounded-2xl bg-pink-500/20 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-pink-400 text-3xl">work</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3">Industry Professional</h3>
+                    <p class="text-white/50 text-center text-sm leading-relaxed">
+                        Advancing skills or transitioning between roles.
+                    </p>
+                    <div class="mt-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span class="text-primary text-xs font-bold flex items-center gap-1">
+                            SELECT <span class="material-symbols-outlined text-sm">chevron_right</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- Decorative background elements -->
+            <div
+                class="fixed top-1/2 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px] -z-10 pointer-events-none">
+            </div>
+            <div
+                class="fixed bottom-1/4 right-1/4 w-64 h-64 bg-teal-500/5 rounded-full blur-[100px] -z-10 pointer-events-none">
+            </div>
+        </main>
+        <!-- Footer / Action Section -->
+        <footer class="w-full max-w-[960px] mx-auto pb-12 px-6">
+            <div class="flex flex-col items-center gap-4">
+                <button id="continue-btn"
+                    class="flex min-w-[240px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-14 px-8 bg-primary text-background-dark text-base font-bold leading-normal tracking-[0.015em] hover:opacity-90 transition-all shadow-lg shadow-primary/20">
+                    <span class="truncate">Continue</span>
+                </button>
+                <button class="text-white/40 text-sm font-medium hover:text-white transition-colors py-2 px-4"
+                    onclick="window.location.href='identity.html'">
+                    Back to step 1
+                </button>
+            </div>
+        </footer>
+    </div>
+    <!-- Hidden image placeholders for accessibility context -->
+    <div class="hidden">
+        <img data-alt="Abstract blue glowing icon for school students"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk6-woLmN_NI194qMOqX-9YM8sDK7CtfdX5dGHnJfIKim_2-vRx-w-s1IYRVlQcEY1m_MoeC0m0gaRDWGEWFwpSAueuaLzlpYt0Co5YqflMdKaFIopLy9EDeAhL6CPGxbNcNNNW1znfFdk-3mQvtt-4SxVqovcB2BRcRIRakXTWnIKtycm5NKiJKpGgSKjcGm41UOkpGBivyDF6htlwiu2zP29KQ7Z3VVMsFxxbcHTzujLLfMVdtHNo9O9Xyp6JXho2XtdWz-2ark" />
+        <img data-alt="Abstract teal glowing icon for college students"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbsproidoy1taNYDwYb86Y3ib_ctHE_v0n0wD5ettWQsNaQDkrFi3cZcpKHrQ5Fuw0Wa7yPUcHZkLO8PgrldXNF6bpckta5Ug-JPGtwduq-PbZI42PuHZ8-xMNqrn_LtYCwfZz1YOfxNEr1GZEYHNBmnsyyNJjF0R9TRJxwnL4GGwDibbCLpjIwV5rsRbWsI0vgaO8IwXUzuCXPPj_1tM1BdBrf36Z77Y8jwkpH-7bCcd_7WBZ-pnwHjMxc8zEEK1NrSrzMJFwr28" />
+        <img data-alt="Abstract pink glowing icon for industry professionals"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAFu55OIKXrykyE0uaZYeEn3T8kasThnhSs4sLW3dLWDKYVUbc5yJXojL5vxoLYX7dY0JM2gE-KBDNiPewRi_QqzlrwLNLyQ6aaslhzUcFke8u2I7C4OMMuwwXTF4fFHLnn4uZ8pwaSI2UyxX4NZ8I78rMXWa17L-PrXezN-7m-BAtYObNnZClRPikZi1VsNeU1qHh2FUIC_oVwvCAwpu-06I18mHrD0vrzAf7T8I1FhkZFnpsttJaCQw_B0KDqFY7ckP46EaHS0hQ" />
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cards = document.querySelectorAll('.glass-card.group'); // Correct selector targeting the card container
+            const continueBtn = document.getElementById('continue-btn');
+            let selectedPath = null;
+
+            // Path mapping
+            const paths = [
+                'details.html?type=school',
+                'details.html?type=college',
+                'details.html?type=professional'
+            ];
+
+            cards.forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    // Remove selected state from all
+                    cards.forEach(c => c.classList.remove('selected-card'));
+
+                    // Add selected state to clicked
+                    card.classList.add('selected-card');
+                    selectedPath = paths[index];
+                });
+            });
+
+            continueBtn.addEventListener('click', () => {
+                if (selectedPath) {
+                    window.location.href = selectedPath;
+                } else {
+                    alert('Please select a path to continue.');
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

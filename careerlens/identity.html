@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>CareerLens Onboarding - Basic Identity</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --primary: #f2b32c;
+            --bg-dark: #0a0e1a;
+            --blob-1: rgba(37, 99, 235, 0.2);
+            --blob-2: rgba(147, 51, 234, 0.2);
+            --blob-3: rgba(20, 184, 166, 0.15);
+        }
+        @layer utilities {
+             .glass-card {
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(24px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .glow-focus:focus-within {
+                box-shadow: 0 0 35px rgba(242, 179, 44, 0.15);
+                border-color: rgba(242, 179, 44, 0.5) !important;
+                outline: none;
+            }
+            .blob {
+                filter: blur(100px);
+                transition: background-color 2s ease;
+                z-index: 0;
+            }
+             /* Enforce dark mode for form controls */
+            :root {
+                color-scheme: dark;
+            }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2b32c",
+                        "navy-dark": "#0a0e1a",
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[#0a0e1a] font-display text-white min-h-screen relative overflow-x-hidden">
+    <div class="fixed top-[5%] left-[-5%] w-[700px] h-[700px] bg-[var(--blob-1)] rounded-full blob"></div>
+    <div class="fixed top-[30%] right-[-10%] w-[600px] h-[600px] bg-[var(--blob-2)] rounded-full blob"></div>
+    <div class="fixed bottom-[-15%] left-[15%] w-[650px] h-[650px] bg-[var(--blob-3)] rounded-full blob"></div>
+
+    <div class="layout-container flex h-full grow flex-col relative z-10">
+        <!-- Header -->
+        <header
+            class="flex items-center justify-between border-b border-white/5 px-6 md:px-20 py-6 sticky top-0 z-50 bg-[#0a0e1a]/80 backdrop-blur-md">
+            <div class="flex items-center gap-4 text-white">
+                <div
+                    class="size-9 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(242,179,44,0.3)]">
+                    <span class="material-symbols-outlined text-navy-dark font-bold text-2xl">person</span>
+                </div>
+                <h2 class="text-white text-xl font-bold tracking-tight">CareerLens</h2>
+            </div>
+            <button class="text-sm font-medium text-slate-400 hover:text-white transition-colors"
+                onclick="window.location.href='../page1/login.html'">Exit</button>
+        </header>
+        <main class="flex-1 flex flex-col items-center justify-center px-4 py-12">
+            <!-- Progress Bar Section -->
+            <div class="w-full max-w-[540px] mb-8">
+                <div class="flex flex-col gap-3 px-2">
+                    <div class="flex gap-6 justify-between items-end">
+                        <p class="text-white text-sm font-medium leading-normal uppercase tracking-wider">Onboarding
+                            Progress</p>
+                        <p class="text-primary text-sm font-bold leading-normal">20%</p>
+                    </div>
+                    <div class="rounded-full bg-white/10 h-1.5 overflow-hidden">
+                        <div class="h-full rounded-full bg-primary" style="width: 20%;"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Glassmorphic Form Card -->
+            <div class="glass-card w-full max-w-[540px] rounded-xl p-8 md:p-10 shadow-2xl">
+                <!-- Headline & Body -->
+                <div class="text-center mb-10">
+                    <h1 class="text-white tracking-tight text-3xl font-bold leading-tight mb-3">Let’s start with the
+                        basics</h1>
+                    <p class="text-slate-400 text-base font-normal leading-relaxed">
+                        Tell us a bit about yourself to personalize your CareerLens experience.
+                    </p>
+                </div>
+                <!-- Form Fields -->
+                <form class="flex flex-col gap-6">
+                    <div class="grid grid-cols-1 gap-6">
+                        <!-- Full Name -->
+                        <div class="flex flex-col gap-2 group">
+                            <label class="flex items-center justify-between">
+                                <span class="text-slate-300 text-sm font-medium">Full Name</span>
+                                <span class="material-symbols-outlined text-slate-500 text-sm cursor-help"
+                                    title="We use this to address you personally in the app">info</span>
+                            </label>
+                            <div class="relative focus-glow rounded-lg transition-all duration-200">
+                                <input
+                                    class="w-full bg-white/5 border border-white/10 rounded-lg p-4 text-white placeholder-slate-500 focus:border-primary focus:ring-0 transition-all glow-focus"
+                                    placeholder="Rahul Sharma" type="text" />
+                            </div>
+                        </div>
+
+                        <!-- Mobile & Location Row -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="flex flex-col gap-2">
+                                <label class="text-slate-300 text-sm font-medium">Mobile Number</label>
+                                <div class="relative focus-glow rounded-lg transition-all duration-200">
+                                    <input
+                                        class="w-full bg-white/5 border border-white/10 rounded-lg p-4 text-white placeholder-slate-500 focus:border-primary focus:ring-0 transition-all glow-focus"
+                                        placeholder="+91 98765 43210" type="tel" />
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-slate-300 text-sm font-medium">Location</label>
+                                <div class="relative focus-glow rounded-lg transition-all duration-200">
+                                    <input
+                                        class="w-full bg-white/5 border border-white/10 rounded-lg p-4 text-white placeholder-slate-500 focus:border-primary focus:ring-0 transition-all glow-focus"
+                                        data-location="Global" placeholder="Mumbai, India" type="text" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- CTA Button -->
+                    <!-- CTA Button -->
+                    <button
+                        class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-primary h-14 px-6 text-navy-dark text-base font-bold transition-transform hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_20px_rgba(242,179,44,0.3)]"
+                        type="button" onclick="saveIdentityAndNavigate()">
+                        <span>Continue</span>
+                        <span class="material-symbols-outlined text-xl">east</span>
+                    </button>
+                    <script>
+                        function saveIdentityAndNavigate() {
+                            const name = document.querySelector('input[placeholder="Rahul Sharma"]').value;
+                            // Save to localStorage
+                            const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+                            userProfile.identity = { name, location };
+                            localStorage.setItem('userProfile', JSON.stringify(userProfile));
+
+                            window.location.href = 'path.html';
+                        }
+                    </script>
+                </form>
+                <!-- Tooltip Example (Simulated Dark Theme) -->
+                <div class="mt-8 pt-6 border-t border-white/5 flex items-start gap-3">
+                    <span class="material-symbols-outlined text-slate-500 text-sm mt-0.5">security</span>
+                    <p class="text-xs text-slate-500 leading-normal">
+                        Your privacy is our priority. We never share your data with third parties without your explicit
+                        consent.
+                    </p>
+                </div>
+            </div>
+            <!-- Footer Branding -->
+            <div class="mt-12 opacity-40 hover:opacity-100 transition-opacity">
+                <p class="text-xs text-white uppercase tracking-[0.2em] font-medium">Powered by CareerLens AI</p>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

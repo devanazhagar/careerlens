@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dynamic Onboarding: Intent Cloud</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --primary: #f2b32c;
+            --bg-dark: #0a0e1a;
+            --blob-1: rgba(37, 99, 235, 0.2);
+            --blob-2: rgba(147, 51, 234, 0.2);
+            --blob-3: rgba(20, 184, 166, 0.15);
+        }
+        @layer utilities {
+            .glass-card {
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(24px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .glow-focus:focus {
+                box-shadow: 0 0 35px rgba(242, 179, 44, 0.15);
+                border-color: rgba(242, 179, 44, 0.5) !important;
+                outline: none;
+            }
+            .blob {
+                filter: blur(100px);
+                transition: background-color 2s ease;
+                z-index: 0;
+            }
+            .career-star {
+                background: rgba(255, 255, 255, 0.05);
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                animation: float 6s ease-in-out infinite;
+            }
+            @keyframes float {
+                0%, 100% { transform: translateY(0px) translateX(0px); }
+                33% { transform: translateY(-15px) translateX(10px); }
+                66% { transform: translateY(5px) translateX(-10px); }
+            }
+            .liquid-fill {
+                position: relative;
+                overflow: hidden;
+            }
+            .liquid-fill::after {
+                content: "";
+                position: absolute;
+                bottom: -100%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 40%;
+                animation: wave 4s infinite linear;
+                pointer-events: none;
+            }
+            @keyframes wave {
+                0% { transform: rotate(0deg) translateY(0); }
+                100% { transform: rotate(360deg) translateY(-20%); }
+            }
+            .intent-area::-webkit-scrollbar {
+                width: 6px;
+            }
+            .intent-area::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+            }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2b32c",
+                        "navy-dark": "#0a0e1a",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-[#0a0e1a] font-display text-white min-h-screen relative overflow-x-hidden">
+    <div class="fixed top-[5%] left-[-5%] w-[700px] h-[700px] bg-[var(--blob-1)] rounded-full blob"></div>
+    <div class="fixed top-[30%] right-[-10%] w-[600px] h-[600px] bg-[var(--blob-2)] rounded-full blob"></div>
+    <div class="fixed bottom-[-15%] left-[15%] w-[650px] h-[650px] bg-[var(--blob-3)] rounded-full blob"></div>
+    <header class="flex items-center justify-between px-12 py-6 relative z-50">
+        <div class="flex items-center gap-3">
+            <div
+                class="size-9 bg-primary rounded-xl flex items-center justify-center shadow-[0_0_20px_rgba(242,179,44,0.3)]">
+                <span class="material-symbols-outlined text-navy-dark font-bold text-2xl">auto_fix_high</span>
+            </div>
+            <h2 class="text-white text-xl font-bold tracking-tight">CareerFlow</h2>
+        </div>
+        <div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-3">
+            <div class="h-1 w-6 rounded-full bg-white/10"></div>
+            <div class="h-1 w-6 rounded-full bg-white/10"></div>
+            <div class="h-1 w-6 rounded-full bg-white/10"></div>
+            <div class="h-1.5 w-10 rounded-full bg-primary shadow-[0_0_10px_rgba(242,179,44,0.5)]"></div>
+            <div class="h-1 w-6 rounded-full bg-white/10"></div>
+        </div>
+        <div class="flex items-center gap-6">
+            <button class="text-slate-400 hover:text-white text-sm font-medium transition-colors">Save Progress</button>
+        </div>
+    </header>
+    <main class="flex flex-col items-center justify-center px-4 py-8 relative z-10">
+        <div class="w-full max-w-5xl flex flex-col gap-8">
+            <div class="w-full max-w-3xl mx-auto flex flex-col gap-4">
+                <div class="flex justify-between items-end px-1">
+                    <p class="text-primary text-xs font-bold uppercase tracking-[0.25em]">Step 4 of 5</p>
+                    <p class="text-slate-400 text-xs font-semibold uppercase tracking-widest">Goals &amp; Intent Mapping
+                    </p>
+                </div>
+                <div class="h-1 w-full rounded-full bg-white/5 overflow-hidden">
+                    <div class="h-full rounded-full bg-primary shadow-[0_0_15px_rgba(242,179,44,0.6)]"
+                        style="width: 80%;"></div>
+                </div>
+            </div>
+            <div class="max-w-4xl mx-auto w-full text-center mb-4">
+                <h1 class="text-white tracking-tight text-5xl lg:text-6xl font-black leading-tight mb-6">
+                    What's your next <span
+                        class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-400">Big
+                        Move?</span>
+                </h1>
+                <p class="text-slate-400 text-lg font-medium max-w-2xl mx-auto leading-relaxed">
+                    Type your career aspirations below. Our AI will visualize your intent and map the trajectory as you
+                    write.
+                </p>
+            </div>
+            <div class="relative w-full max-w-4xl mx-auto">
+                <div class="absolute -top-12 -left-8 career-star px-4 py-2 rounded-full text-sm font-medium text-primary/80 flex items-center gap-2"
+                    style="animation-delay: 0s;">
+                    <span class="size-2 rounded-full bg-primary animate-pulse"></span> Leadership
+                </div>
+                <div class="absolute top-20 -right-12 career-star px-4 py-2 rounded-full text-sm font-medium text-blue-400/80 flex items-center gap-2"
+                    style="animation-delay: 1s;">
+                    <span class="size-2 rounded-full bg-blue-400 animate-pulse"></span> AI Research
+                </div>
+                <div class="absolute -bottom-6 left-20 career-star px-4 py-2 rounded-full text-sm font-medium text-emerald-400/80 flex items-center gap-2"
+                    style="animation-delay: 2s;">
+                    <span class="size-2 rounded-full bg-emerald-400 animate-pulse"></span> Sustainability
+                </div>
+                <div class="absolute top-1/2 -left-16 career-star px-4 py-2 rounded-full text-sm font-medium text-purple-400/80 flex items-center gap-2"
+                    style="animation-delay: 1.5s;">
+                    <span class="size-2 rounded-full bg-purple-400 animate-pulse"></span> FinTech
+                </div>
+                <div class="absolute -top-4 right-1/4 career-star px-4 py-2 rounded-full text-sm font-medium text-orange-400/80 flex items-center gap-2"
+                    style="animation-delay: 0.5s;">
+                    <span class="size-2 rounded-full bg-orange-400 animate-pulse"></span> Product Strategy
+                </div>
+                <div class="glass-card rounded-[2.5rem] p-1 shadow-2xl overflow-hidden">
+                    <div class="relative group">
+                        <textarea
+                            class="intent-area w-full min-h-[400px] rounded-[2.2rem] bg-navy-dark/40 border-none p-12 text-2xl font-light leading-relaxed text-white placeholder:text-slate-600 transition-all duration-500 resize-none glow-focus"
+                            placeholder="e.g., I want to lead a design engineering team at a startup focused on renewable energy. I'm excited about scaling products that have a direct social impact..."></textarea>
+                        <div class="absolute bottom-8 right-8 flex items-center gap-3">
+                            <div class="flex -space-x-2">
+                                <div
+                                    class="size-8 rounded-full border-2 border-navy-dark bg-blue-500/20 backdrop-blur-sm flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-blue-400 text-xs">monitoring</span>
+                                </div>
+                                <div
+                                    class="size-8 rounded-full border-2 border-navy-dark bg-purple-500/20 backdrop-blur-sm flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-purple-400 text-xs">psychology</span>
+                                </div>
+                            </div>
+                            <div
+                                class="text-slate-400 text-sm font-bold flex items-center gap-2 bg-navy-dark/60 backdrop-blur-xl px-5 py-2.5 rounded-full border border-white/10">
+                                <span class="material-symbols-outlined text-primary text-xl animate-spin"
+                                    style="animation-duration: 3s;">settings_heart</span>
+                                <span class="tracking-wide">AI analyzing intent...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-8 flex items-center justify-between w-full max-w-4xl mx-auto">
+                <button
+                    class="flex items-center gap-3 px-8 py-4 rounded-2xl bg-white/5 text-slate-400 hover:text-white hover:bg-white/10 transition-all group border border-white/5"
+                    onclick="window.history.back()">
+                    <span
+                        class="material-symbols-outlined text-xl group-hover:-translate-x-1 transition-transform">west</span>
+                    <span class="font-bold tracking-wide">Back</span>
+                </button>
+                <div class="flex items-center gap-8">
+                    <button class="text-slate-500 hover:text-white font-bold transition-colors tracking-wide">
+                        Skip this step
+                    </button>
+                    <button
+                        class="liquid-fill group relative flex items-center justify-center gap-4 rounded-2xl px-14 h-16 bg-primary text-navy-dark text-xl font-black shadow-[0_10px_40px_rgba(242,179,44,0.4)] hover:shadow-[0_15px_50px_rgba(242,179,44,0.6)] hover:-translate-y-1 transition-all overflow-hidden"
+                        onclick="window.location.href='analysis.html'">
+                        <span class="relative z-10 flex items-center gap-3">
+                            Analyze My Profile
+                            <span
+                                class="material-symbols-outlined font-black group-hover:translate-x-2 transition-transform">east</span>
+                        </span>
+                    </button>
+                </div>
+            </div>
+            <div class="flex flex-col items-center gap-4 opacity-40 mt-16">
+                <div class="flex gap-6">
+                    <span class="material-symbols-outlined text-2xl">shield_lock</span>
+                    <span class="material-symbols-outlined text-2xl">verified</span>
+                    <span class="material-symbols-outlined text-2xl">encrypted</span>
+                </div>
+                <p class="text-[11px] uppercase tracking-[0.4em] font-bold text-center">Neural Analysis &amp; Private
+                    Data Processing</p>
+            </div>
+        </div>
+    </main>
+    <footer class="mt-auto py-10 text-center relative z-10">
+        <p class="text-slate-600 text-sm font-medium">© 2024 CareerFlow AI. Transforming potential into trajectory.</p>
+    </footer>
+
+</body>
+
+</html>

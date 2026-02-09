@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Career Readiness Dashboard - Styled Dark Mode</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#F2B42D", // New primary yellow/gold
+                        "primary-dark": "#D99E1F",
+                        "accent-pink": "#D7425E",
+                        "accent-orange": "#DD785E",
+                        "accent-blue": "#48A8E2",
+                        "accent-teal": "#59ABA9",
+                        "background-light": "#f6f6f8",
+                        "background-dark": "#05051a", // Deep background
+                        "surface-dark": "#00002E", // Requested base card color
+                        "surface-light": "#ffffff",
+                        "text-secondary": "#cbd5e1", // Lighter grey for better contrast on dark
+                        "border-dark": "#2a2a5a", // Subtle border for cards
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px" },
+                    boxShadow: {
+                        "glow": "0 0 20px rgba(242, 180, 45, 0.15)",
+                        "card": "0 10px 30px -5px rgba(0, 0, 0, 0.3)",
+                    }
+                },
+            },
+        }
+    </script>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .glass-effect {
+            background: rgba(0, 0, 46, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .bg-gradient-blobs {
+            background-color: #05051a;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(215, 66, 94, 0.15) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(72, 168, 226, 0.15) 0%, transparent 25%);
+            background-attachment: fixed;
+        }
+
+        @keyframes progress-stripe {
+            0% {
+                background-position: 1rem 0;
+            }
+
+            100% {
+                background-position: 0 0;
+            }
+        }
+
+        .animate-stripe {
+            animation: progress-stripe 1s linear infinite;
+        }
+    </style>
+</head>
+
+<body class="bg-gradient-blobs text-white overflow-hidden h-screen flex selection:bg-primary selection:text-black">
+    <aside
+        class="w-64 h-full bg-surface-dark/95 border-r border-border-dark flex-shrink-0 flex flex-col hidden md:flex z-20 shadow-2xl">
+        <div class="h-16 flex items-center px-6 border-b border-border-dark">
+            <div class="flex items-center gap-3">
+                <div
+                    class="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-accent-orange flex items-center justify-center text-black">
+                    <span class="material-symbols-outlined text-xl font-bold">school</span>
+                </div>
+                <span class="text-lg font-bold tracking-tight text-white">CareerReady</span>
+            </div>
+        </div>
+        <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary border border-primary/20 group"
+                href="#">
+                <span class="material-symbols-outlined filled">dashboard</span>
+                <span class="font-medium">Dashboard</span>
+            </a>
+            <div class="pt-4 pb-1 px-3 text-xs font-semibold text-text-secondary uppercase tracking-wider opacity-70">
+                Growth</div>
+
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">description</span>
+                <span class="font-medium">Resume Analyzer</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">search</span>
+                <span class="font-medium">Openings</span>
+                <span
+                    class="ml-auto bg-accent-pink text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold shadow-sm">12</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">analytics</span>
+                <span class="font-medium">Skill Analyzer</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">menu_book</span>
+                <span class="font-medium">Profile Guide</span>
+            </a>
+            <div class="pt-4 pb-1 px-3 text-xs font-semibold text-text-secondary uppercase tracking-wider opacity-70">
+                Daily</div>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors group"
+                href="../habittracker.html">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">fact_check</span>
+                <span class="font-medium">Habit Tracker</span>
+            </a>
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">check_circle</span>
+                <span class="font-medium">Tasks</span>
+            </a>
+        </nav>
+        <div class="p-4 border-t border-border-dark">
+            <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:text-white hover:bg-white/5 transition-colors group"
+                href="#">
+                <span class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+                <span class="font-medium">Settings</span>
+            </a>
+        </div>
+    </aside>
+    <div class="flex-1 flex flex-col h-full overflow-hidden relative">
+        <header
+            class="h-16 flex items-center justify-between px-6 md:px-10 border-b border-border-dark bg-surface-dark/60 backdrop-blur-md z-10 sticky top-0">
+            <div class="flex items-center gap-4">
+                <button class="md:hidden text-gray-400 hover:text-white">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+                <div class="hidden md:flex flex-col">
+                    <h2 class="text-white text-lg font-bold leading-none">Dashboard</h2>
+                    <p class="text-xs text-text-secondary mt-1">Welcome back, <span id="header-user-name">Alex</span>
+                    </p>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="relative hidden sm:block w-64 lg:w-96">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="material-symbols-outlined text-gray-500 text-[20px]">search</span>
+                    </div>
+                    <input
+                        class="block w-full pl-10 pr-3 py-2 border border-border-dark rounded-lg leading-5 bg-surface-dark/50 text-gray-300 placeholder-gray-500 focus:outline-none focus:bg-surface-dark focus:border-primary focus:ring-1 focus:ring-primary sm:text-sm transition-all"
+                        placeholder="Search jobs, skills, or tasks..." type="text" />
+                </div>
+                <div class="flex items-center gap-3">
+                    <button
+                        class="relative p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <span
+                            class="absolute top-2 right-2 block h-2 w-2 rounded-full bg-accent-pink ring-2 ring-surface-dark"></span>
+                    </button>
+                    <button aria-label="Toggle theme"
+                        class="flex items-center justify-center p-2 text-primary bg-primary/10 hover:bg-primary/20 rounded-lg transition-colors border border-primary/20">
+                        <span class="material-symbols-outlined">dark_mode</span>
+                    </button>
+                    <div class="h-9 w-9 rounded-full bg-cover bg-center border border-border-dark cursor-pointer ring-2 ring-transparent hover:ring-primary transition-all"
+                        data-alt="Portrait of a young professional woman"
+                        style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDB5PTcf8iDkyxPfkupqGHHzxfqprSXRsq8DyRxMOycfmSZNUW4cleBI1B73pNFDxHvP_ovK_Ez-xhttd2NfWJ2sqd767jVeR1J_pxnhOR3RglM17G8_bC4YJQUcMPl6857q90dF_RhqjiUk7tWq9hffO__qvCNlHsqIdhLyG7aioBTbCeLW9Ho4deKTI8FFBZ_8dUMS18VUP3VjkhYsVn7fZFafBagNybxafK1vyF4dgfgCE_4mbBztJVkmpZ204vSELkPQZqcz58');">
+                    </div>
+                </div>
+            </div>
+        </header>
+        <main class="flex-1 overflow-y-auto p-6 md:p-10 no-scrollbar relative z-0">
+            <div class="max-w-7xl mx-auto space-y-8">
+                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                    <h1 class="text-3xl font-bold text-white tracking-tight max-w-2xl">
+                        Good morning, <span id="user-name-display">Alex</span>.<br />
+                        <span class="text-text-secondary font-medium text-xl">Let's make some progress today.</span>
+                    </h1>
+                </div>
+
+                <!-- Animated Progress Bar -->
+                <div
+                    class="bg-surface-dark border border-border-dark rounded-xl p-6 shadow-card relative overflow-hidden">
+                    <div class="flex justify-between items-end mb-3">
+                        <div>
+                            <h3 class="text-white font-bold text-lg">Task Progress</h3>
+                            <p class="text-text-secondary text-sm">Based on your priority list</p>
+                        </div>
+                        <span class="text-primary font-bold text-3xl" id="readiness-score">0%</span>
+                    </div>
+                    <div class="h-6 w-full bg-white/5 rounded-full overflow-hidden relative shadow-inner">
+                        <div class="h-full bg-gradient-to-r from-primary to-accent-orange relative w-0 transition-all duration-[1500ms] ease-out flex items-center justify-end pr-2"
+                            id="main-progress-bar">
+                            <div
+                                class="absolute inset-0 bg-[linear-gradient(45deg,rgba(255,255,255,0.15)_25%,transparent_25%,transparent_50%,rgba(255,255,255,0.15)_50%,rgba(255,255,255,0.15)_75%,transparent_75%,transparent)] bg-[length:1rem_1rem] animate-stripe">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>1
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                <div class="lg:col-span-4 space-y-6">
+                    <div
+                        class="bg-surface-dark rounded-xl p-6 border border-border-dark shadow-card relative overflow-hidden group">
+                        <div
+                            class="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity duration-500">
+                            <span class="material-symbols-outlined text-9xl text-white">person</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center text-center">
+                            <div
+                                class="h-24 w-24 rounded-full p-1 bg-gradient-to-tr from-primary to-accent-orange mb-4 shadow-lg shadow-primary/20">
+                                <div class="h-full w-full rounded-full bg-cover bg-center border-4 border-surface-dark"
+                                    data-alt="Portrait of a user"
+                                    style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDxgdCwFLda-TkrY0DgeLfh4iLWhQbW-DfMhMBvb4BtjCsT0SnyK1wjKxwqI1UQnL7SPZprO4T67ssqheq8WO-Ug8cl9gK1ntY_QX0M-6-uzKbqb92yT4h3AyoplfnYmYpNiEs-g1tNpaNKL6V2yqQitF7GV37ApTg5M0fhJ4CIHlxrO2sfNujq8QLmp1gWhOn6UdTf1dfMpkrJaffn6Fwvl8u2vGxp6rtn2aIsclmJjQZTD4wGWk1ZOlVgclKePoSwbzqLduXNA2Y');">
+                                </div>
+                            </div>
+                            <h3 class="text-xl font-bold text-white" id="card-name">Alex Morgan</h3>
+                            <p class="text-text-secondary text-sm mb-4" id="card-role">Target: Senior Product Designer
+                            </p>
+                            <span
+                                class="px-3 py-1 rounded-full bg-accent-teal/10 text-accent-teal text-xs font-bold border border-accent-teal/30"
+                                id="card-status">Status:
+                                Job Seeking</span>
+                        </div>
+                        <div class="mt-6 pt-6 border-t border-border-dark grid grid-cols-2 gap-4 text-center">
+                            <div>
+                                <p class="text-2xl font-bold text-white">12</p>
+                                <p class="text-xs text-text-secondary uppercase tracking-wider">Interviews</p>
+                            </div>
+                            <div>
+                                <p class="text-2xl font-bold text-white">45</p>
+                                <p class="text-xs text-text-secondary uppercase tracking-wider">Applications</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-surface-dark rounded-xl p-6 border border-border-dark shadow-card">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-bold text-white">Skill Gap Analysis</h3>
+                            <button class="text-xs text-primary hover:text-white transition-colors font-semibold">View
+                                Details</button>
+                        </div>
+                        <div class="flex flex-col items-center justify-center mb-6">
+                            <div class="relative h-40 w-40 flex items-center justify-center">
+                                <svg class="h-full w-full transform -rotate-90" viewBox="0 0 36 36">
+                                    <path class="text-white/5"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        fill="none" stroke="currentColor" stroke-width="2.5"></path>
+                                    <path class="text-primary drop-shadow-[0_0_8px_rgba(242,180,45,0.4)]"
+                                        d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                                        fill="none" stroke="currentColor" stroke-dasharray="78, 100"
+                                        stroke-linecap="round" stroke-width="2.5"></path>
+                                </svg>
+                                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                                    <span class="text-3xl font-bold text-white">78%</span>
+                                    <span class="text-xs text-text-secondary">Ready</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-300">UX Research</span>
+                                    <span class="text-white font-medium">92%</span>
+                                </div>
+                                <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div
+                                        class="h-full bg-accent-blue w-[92%] rounded-full shadow-[0_0_10px_rgba(72,168,226,0.5)]">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-300">Prototyping</span>
+                                    <span class="text-white font-medium">85%</span>
+                                </div>
+                                <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div
+                                        class="h-full bg-accent-pink w-[85%] rounded-full shadow-[0_0_10px_rgba(215,66,94,0.5)]">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-300">Visual Design</span>
+                                    <span class="text-white font-medium">64%</span>
+                                </div>
+                                <div class="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                                    <div
+                                        class="h-full bg-accent-orange w-[64%] rounded-full shadow-[0_0_10px_rgba(221,120,94,0.5)]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-8 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+
+                    </div>
+                    <div class="bg-surface-dark rounded-xl border border-border-dark shadow-card overflow-hidden">
+                        <div class="p-6 border-b border-border-dark flex justify-between items-center">
+                            <h3 class="font-bold text-white">Priority Tasks</h3>
+                            <button
+                                class="p-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-gray-300 transition-colors">
+                                <span class="material-symbols-outlined text-sm">filter_list</span>
+                            </button>
+                        </div>
+                        <div class="w-full overflow-x-auto">
+                            <table class="w-full text-left text-sm text-gray-400">
+                                <thead class="bg-white/5 text-xs uppercase font-semibold text-gray-300">
+                                    <tr>
+                                        <th class="px-6 py-4">Task Name</th>
+                                        <th class="px-6 py-4">Category</th>
+                                        <th class="px-6 py-4">Due Date</th>
+                                        <th class="px-6 py-4">Status</th>
+                                        <th class="px-6 py-4 text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-border-dark">
+                                    <tr class="hover:bg-white/5 transition-colors group">
+                                        <td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+                                            <div
+                                                class="h-2 w-2 rounded-full bg-accent-pink shadow-[0_0_6px_rgba(215,66,94,0.6)]">
+                                            </div>
+                                            <span class="group-hover:text-primary transition-colors">Update
+                                                Portfolio Case Study</span>
+                                        </td>
+                                        <td class="px-6 py-4">Profile</td>
+                                        <td class="px-6 py-4 text-accent-pink">Today</td>
+                                        <td class="px-6 py-4"><span
+                                                class="px-2 py-1 bg-primary/10 text-primary border border-primary/20 rounded text-xs font-bold">In
+                                                Progress</span></td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="text-gray-400 hover:text-white"><span
+                                                    class="material-symbols-outlined">more_vert</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition-colors group">
+                                        <td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+                                            <div
+                                                class="h-2 w-2 rounded-full bg-accent-blue shadow-[0_0_6px_rgba(72,168,226,0.6)]">
+                                            </div>
+                                            <span class="group-hover:text-accent-blue transition-colors">Complete
+                                                Python Assessment</span>
+                                        </td>
+                                        <td class="px-6 py-4">Skills</td>
+                                        <td class="px-6 py-4">Tomorrow</td>
+                                        <td class="px-6 py-4"><span
+                                                class="px-2 py-1 bg-white/10 text-gray-300 border border-white/10 rounded text-xs font-bold">Pending</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="text-gray-400 hover:text-white"><span
+                                                    class="material-symbols-outlined">more_vert</span></button>
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-white/5 transition-colors group">
+                                        <td class="px-6 py-4 font-medium text-white flex items-center gap-3">
+                                            <div
+                                                class="h-2 w-2 rounded-full bg-accent-teal shadow-[0_0_6px_rgba(89,171,169,0.6)]">
+                                            </div>
+                                            <span class="group-hover:text-accent-teal transition-colors">Reach out
+                                                to 5 Recruiters</span>
+                                        </td>
+                                        <td class="px-6 py-4">Networking</td>
+                                        <td class="px-6 py-4">Oct 24</td>
+                                        <td class="px-6 py-4"><span
+                                                class="px-2 py-1 bg-accent-teal/10 text-accent-teal border border-accent-teal/20 rounded text-xs font-bold">Done</span>
+                                        </td>
+                                        <td class="px-6 py-4 text-right">
+                                            <button class="text-gray-400 hover:text-white"><span
+                                                    class="material-symbols-outlined">more_vert</span></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="bg-surface-dark rounded-xl p-6 border border-border-dark shadow-card">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+                            <div>
+                                <h3 class="font-bold text-white">Daily Habits</h3>
+                                <p class="text-sm text-text-secondary">Current Streak: <span
+                                        class="text-primary font-bold drop-shadow-[0_0_5px_rgba(242,180,45,0.4)]">14
+                                        Days</span> 🔥</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="p-1 text-gray-400 hover:text-white"><span
+                                        class="material-symbols-outlined">chevron_left</span></button>
+                                <button class="p-1 text-gray-400 hover:text-white"><span
+                                        class="material-symbols-outlined">chevron_right</span></button>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-7 gap-2">
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-xs text-gray-500 uppercase">Mon</span>
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-accent-teal/10 border border-accent-teal/30 flex items-center justify-center text-accent-teal">
+                                    <span class="material-symbols-outlined text-base font-bold">check</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-xs text-gray-500 uppercase">Tue</span>
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-accent-teal/10 border border-accent-teal/30 flex items-center justify-center text-accent-teal">
+                                    <span class="material-symbols-outlined text-base font-bold">check</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-xs text-gray-500 uppercase">Wed</span>
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-accent-teal/10 border border-accent-teal/30 flex items-center justify-center text-accent-teal">
+                                    <span class="material-symbols-outlined text-base font-bold">check</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-xs text-gray-500 uppercase">Thu</span>
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gray-500">
+                                    <span class="text-xs font-bold">-</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2">
+                                <span class="text-xs text-primary font-bold uppercase">Today</span>
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-primary text-black shadow-[0_0_15px_rgba(242,180,45,0.4)] flex items-center justify-center cursor-pointer hover:scale-105 transition-transform">
+                                    <span class="material-symbols-outlined text-base font-bold">edit</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 opacity-40">
+                                <span class="text-xs text-gray-500 uppercase">Sat</span>
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center gap-2 opacity-40">
+                                <span class="text-xs text-gray-500 uppercase">Sun</span>
+                                <div
+                                    class="h-10 w-10 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="h-20"></div>
+    </div>
+    </main>
+    </div>
+    <div class="fixed bottom-8 right-8 z-50 flex flex-col items-end group">
+        <div
+            class="mb-4 bg-surface-dark border border-border-dark p-4 rounded-2xl rounded-tr-none shadow-glow w-72 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none group-hover:pointer-events-auto">
+            <p class="text-sm text-white font-medium mb-2">👋 Hi Alex!</p>
+            <p class="text-sm text-gray-400">I noticed you haven't completed your daily mock interview. Need help
+                preparing?</p>
+            <div class="mt-3 flex gap-2">
+                <button
+                    class="flex-1 bg-white/10 hover:bg-white/20 text-xs text-white py-2 rounded-lg transition-colors border border-white/5">Not
+                    now</button>
+                <button
+                    class="flex-1 bg-primary hover:bg-primary-dark text-xs text-black font-bold py-2 rounded-lg transition-colors shadow-lg shadow-primary/20">Let's
+                    start</button>
+            </div>
+        </div>
+        <div
+            class="h-14 w-14 rounded-full bg-primary text-black shadow-[0_0_20px_rgba(242,180,45,0.5)] flex items-center justify-center cursor-move hover:scale-110 active:scale-95 transition-all relative border-2 border-primary-dark">
+            <span class="material-symbols-outlined text-2xl font-bold">smart_toy</span>
+            <span class="absolute top-0 right-0 -mt-1 -mr-1 flex h-4 w-4">
+                <span
+                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent-orange opacity-75"></span>
+                <span
+                    class="relative inline-flex rounded-full h-4 w-4 bg-accent-orange border-2 border-surface-dark"></span>
+            </span>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Load User Data from LocalStorage
+            const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+            const identity = userProfile.identity || {};
+            const goals = userProfile.goals || 'Explorer';
+
+            // Defaults
+            const userName = identity.name || 'Guest';
+            const userLocation = identity.location || 'Global';
+
+            // Update DOM Elements
+            const nameDisplay = document.getElementById('user-name-display');
+            const cardName = document.getElementById('card-name');
+            const cardRole = document.getElementById('card-role');
+
+            if (nameDisplay) nameDisplay.textContent = userName.split(' ')[0]; // First name only
+            const headerUserName = document.getElementById('header-user-name');
+            if (headerUserName) headerUserName.textContent = userName.split(' ')[0];
+            if (cardName) cardName.textContent = userName;
+            if (cardRole) cardRole.textContent = `Target: ${goals.length > 30 ? goals.substring(0, 27) + '...' : goals}`;
+
+            // 2. Animate Progress Bar
+            setTimeout(() => {
+                const progressBar = document.getElementById('main-progress-bar');
+                const scoreDisplay = document.getElementById('readiness-score');
+
+                // Simulating a calculation based on profile completion
+                let completion = 35; // Base tasks
+                if (identity.name) completion += 10;
+                if (userProfile.goals) completion += 15;
+                if (userProfile.details) completion += 15;
+
+                if (progressBar) progressBar.style.width = `${completion}%`;
+                if (scoreDisplay) {
+                    let start = 0;
+                    const duration = 1500;
+                    const stepTime = 20;
+                    const steps = duration / stepTime;
+                    const increment = completion / steps;
+
+                    const timer = setInterval(() => {
+                        start += increment;
+                        if (start >= completion) {
+                            start = completion;
+                            clearInterval(timer);
+                        }
+                        scoreDisplay.textContent = `${Math.round(start)}%`;
+                    }, stepTime);
+                }
+            }, 500);
+        });
+    </script>
+</body>
+
+</html>

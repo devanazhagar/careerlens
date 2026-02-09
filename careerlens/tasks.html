@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Tasks</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --primary: #f2b32c;
+            --bg-dark: #0a0e1a;
+            --blob-1: rgba(37, 99, 235, 0.2);
+            --blob-2: rgba(147, 51, 234, 0.2);
+            --blob-3: rgba(20, 184, 166, 0.15);
+        }
+        @layer utilities {
+             .glass-card {
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(24px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .glow-focus:focus-within {
+                box-shadow: 0 0 35px rgba(242, 179, 44, 0.15);
+                border-color: rgba(242, 179, 44, 0.5) !important;
+                outline: none;
+            }
+            .blob {
+                filter: blur(100px);
+                transition: background-color 2s ease;
+                z-index: 0;
+            }
+             /* Enforce dark mode for form controls */
+            :root {
+                color-scheme: dark;
+            }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2b32c",
+                        "navy-dark": "#0a0e1a",
+                        "accent-blue": "#48A8E2",
+                        "accent-pink": "#D7425E",
+                        "accent-teal": "#59ABA9",
+                    },
+                    fontFamily: {
+                        "display": ["Montserrat", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        /* Custom checkbox matching Habit Tracker */
+        .custom-checkbox input:checked+div {
+            background-color: #f2b32c;
+            border-color: #f2b32c;
+        }
+
+        .custom-checkbox input:checked+div span {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-[#0a0e1a] font-display text-white min-h-screen relative overflow-x-hidden flex flex-col">
+    <!-- Blobs -->
+    <div class="fixed top-[5%] left-[-5%] w-[700px] h-[700px] bg-[var(--blob-1)] rounded-full blob pointer-events-none">
+    </div>
+    <div
+        class="fixed top-[30%] right-[-10%] w-[600px] h-[600px] bg-[var(--blob-2)] rounded-full blob pointer-events-none">
+    </div>
+    <div
+        class="fixed bottom-[-15%] left-[15%] w-[650px] h-[650px] bg-[var(--blob-3)] rounded-full blob pointer-events-none">
+    </div>
+
+    <div class="layout-container flex flex-col relative z-10 w-full max-w-5xl mx-auto px-4 md:px-8 py-10 flex-grow">
+
+        <!-- Header Section -->
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8">
+            <div class="space-y-2">
+                <button onclick="window.location.href='Dashboard.html'"
+                    class="text-sm font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1 mb-2">
+                    <span class="material-symbols-outlined text-lg">arrow_back</span> Back to Dashboard
+                </button>
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white">Tasks</h1>
+                <p class="text-slate-400">Your personalized action plan for progress.</p>
+            </div>
+
+            <!-- Progress Pill -->
+            <div class="glass-card px-6 py-3 rounded-full flex items-center gap-4 border border-white/10 shadow-lg">
+                <div class="flex flex-col items-end">
+                    <span class="text-xs text-slate-400 font-semibold uppercase tracking-wider">Completion</span>
+                    <span class="text-primary font-bold" id="task-progress-text">0/0</span>
+                </div>
+                <!-- Circular Progress Mini -->
+                <div class="relative w-10 h-10 flex items-center justify-center">
+                    <svg class="w-full h-full transform -rotate-90">
+                        <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent"
+                            class="text-white/10" />
+                        <circle cx="20" cy="20" r="16" stroke="currentColor" stroke-width="3" fill="transparent"
+                            class="text-primary transition-all duration-1000 ease-out" stroke-dasharray="100"
+                            stroke-dashoffset="100" id="task-progress-circle" />
+                    </svg>
+                </div>
+            </div>
+        </header>
+
+        <!-- Filters & Add Task Bar -->
+        <div class="flex flex-col lg:flex-row gap-4 mb-6">
+            <!-- Filter Pills -->
+            <div class="glass-card p-1.5 rounded-lg flex overflow-x-auto no-scrollbar gap-1 flex-1">
+                <button onclick="filterTasks('all')"
+                    class="filter-btn active px-4 py-2 rounded-md text-sm font-medium transition-all text-white bg-white/10 shadow-sm"
+                    data-filter="all">All</button>
+                <button onclick="filterTasks('pending')"
+                    class="filter-btn px-4 py-2 rounded-md text-sm font-medium transition-all text-slate-400 hover:text-white"
+                    data-filter="pending">Pending</button>
+                <button onclick="filterTasks('in-progress')"
+                    class="filter-btn px-4 py-2 rounded-md text-sm font-medium transition-all text-slate-400 hover:text-white"
+                    data-filter="in-progress">In Progress</button>
+                <button onclick="filterTasks('completed')"
+                    class="filter-btn px-4 py-2 rounded-md text-sm font-medium transition-all text-slate-400 hover:text-white"
+                    data-filter="completed">Completed</button>
+            </div>
+
+            <!-- Add Task Toggle -->
+            <button onclick="toggleAddTask()"
+                class="bg-primary hover:bg-[#d99e1f] text-navy-dark font-bold px-6 py-3 rounded-lg shadow-[0_0_20px_rgba(242,179,44,0.3)] flex items-center gap-2 transition-transform active:scale-95 shrink-0">
+                <span class="material-symbols-outlined">add</span>
+                <span>Add Task</span>
+            </button>
+        </div>
+
+        <!-- Add Task Form (Collapsible) -->
+        <div id="add-task-panel"
+            class="hidden glass-card rounded-xl p-6 mb-8 border-l-4 border-l-primary transition-all duration-300">
+            <h3 class="text-lg font-bold text-white mb-4">Create New Task</h3>
+            <form id="new-task-form" class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                <div class="md:col-span-4 space-y-1">
+                    <label class="text-xs text-slate-400 font-medium ml-1">Task Title</label>
+                    <input type="text" id="task-title" required
+                        class="w-full bg-navy-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-primary focus:ring-0 transition-all glow-focus"
+                        placeholder="e.g. Finish Python module">
+                </div>
+                <div class="md:col-span-3 space-y-1">
+                    <label class="text-xs text-slate-400 font-medium ml-1">Category</label>
+                    <select id="task-category"
+                        class="w-full bg-navy-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-primary focus:ring-0 transition-all cursor-pointer">
+                        <option value="Academics">Academics</option>
+                        <option value="Skills">Skills</option>
+                        <option value="Placement">Placement</option>
+                        <option value="Work">Work</option>
+                        <option value="Personal">Personal</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2 space-y-1">
+                    <label class="text-xs text-slate-400 font-medium ml-1">Priority</label>
+                    <select id="task-priority"
+                        class="w-full bg-navy-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-primary focus:ring-0 transition-all cursor-pointer">
+                        <option value="High">High</option>
+                        <option value="Medium" selected>Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <div class="md:col-span-3 space-y-1">
+                    <label class="text-xs text-slate-400 font-medium ml-1">Due Date</label>
+                    <input type="date" id="task-date" required
+                        class="w-full bg-navy-dark/50 border border-white/10 rounded-lg px-4 py-2.5 text-white focus:border-primary focus:ring-0 transition-all cursor-pointer">
+                </div>
+                <div class="md:col-span-12 flex justify-end gap-3 mt-2">
+                    <button type="button" onclick="toggleAddTask()"
+                        class="px-4 py-2 text-slate-400 hover:text-white transition-colors">Cancel</button>
+                    <button type="submit"
+                        class="bg-primary/20 hover:bg-primary/30 text-primary border border-primary/50 font-bold px-6 py-2 rounded-lg transition-colors">Save
+                        Task</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Tasks List -->
+        <div class="glass-card rounded-xl overflow-hidden shadow-2xl min-h-[400px]">
+            <table class="w-full text-left border-collapse">
+                <thead
+                    class="bg-white/5 text-xs text-slate-400 uppercase tracking-wider font-semibold border-b border-white/5">
+                    <tr>
+                        <th class="px-6 py-4 w-12"></th> <!-- Checkbox -->
+                        <th class="px-6 py-4">Task Name</th>
+                        <th class="px-6 py-4 hidden md:table-cell">Category</th>
+                        <th class="px-6 py-4 hidden sm:table-cell">Due Date</th>
+                        <th class="px-6 py-4">Priority</th>
+                        <th class="px-6 py-4 text-right">Action</th>
+                    </tr>
+                </thead>
+                <tbody id="task-list-body" class="divide-y divide-white/5">
+                    <!-- Tasks Injected JS -->
+                </tbody>
+            </table>
+            <!-- Empty State -->
+            <div id="empty-tasks" class="hidden flex flex-col items-center justify-center py-20 text-center">
+                <div class="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center mb-4 text-slate-500">
+                    <span class="material-symbols-outlined text-3xl">assignment_turned_in</span>
+                </div>
+                <h3 class="text-white font-medium text-lg">All caught up!</h3>
+                <p class="text-slate-500 text-sm mt-1">No tasks found matching your filters.</p>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // State
+        let tasks = [];
+        let currentFilter = 'all';
+
+        // Load or Init
+        document.addEventListener('DOMContentLoaded', () => {
+            const storedTasks = localStorage.getItem('myTasks');
+
+            if (storedTasks) {
+                tasks = JSON.parse(storedTasks);
+            } else {
+                initializePersonalizedTasks();
+            }
+
+            // Set text date input min to today
+            document.getElementById('task-date').min = new Date().toISOString().split("T")[0];
+
+            renderTasks();
+            updateProgress();
+        });
+
+        function initializePersonalizedTasks() {
+            // Read profile for logic
+            const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+            const role = (userProfile.identity && userProfile.identity.role) ? userProfile.identity.role.toLowerCase() : 'student'; // Default fallback
+
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            // Seed Data
+            if (role.includes('student') || role.includes('learning')) {
+                tasks = [
+                    { id: 1, title: 'Complete Mathematics-II Assignment', category: 'Academics', date: tomorrow.toISOString().split('T')[0], priority: 'High', status: 'pending' },
+                    { id: 2, title: 'Revise Data Structures notes', category: 'Skills', date: today.toISOString().split('T')[0], priority: 'Medium', status: 'in-progress' },
+                    { id: 3, title: 'Update Resume with new project', category: 'Placement', date: new Date(today.setDate(today.getDate() + 3)).toISOString().split('T')[0], priority: 'High', status: 'pending' }
+                ];
+            } else {
+                // Professional / Default
+                tasks = [
+                    { id: 1, title: 'Research new market trends', category: 'Work', date: tomorrow.toISOString().split('T')[0], priority: 'High', status: 'pending' },
+                    { id: 2, title: 'Complete System Design course', category: 'Skills', date: today.toISOString().split('T')[0], priority: 'Medium', status: 'in-progress' },
+                    { id: 3, title: 'Networking call with mentor', category: 'Personal', date: new Date(today.setDate(today.getDate() + 2)).toISOString().split('T')[0], priority: 'Medium', status: 'pending' }
+                ];
+            }
+            saveTasks();
+        }
+
+        // CRUD
+        function saveTasks() {
+            localStorage.setItem('myTasks', JSON.stringify(tasks));
+            renderTasks();
+            updateProgress();
+        }
+
+        document.getElementById('new-task-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const title = document.getElementById('task-title').value;
+            const category = document.getElementById('task-category').value;
+            const priority = document.getElementById('task-priority').value;
+            const date = document.getElementById('task-date').value;
+
+            const newTask = {
+                id: Date.now(),
+                title,
+                category,
+                priority,
+                date,
+                status: 'pending'
+            };
+
+            tasks.unshift(newTask); // Add to top
+            saveTasks();
+            toggleAddTask(); // Close panel
+
+            // Reset form
+            e.target.reset();
+        });
+
+        function deleteTask(id) {
+            if (confirm('Delete this task?')) {
+                tasks = tasks.filter(t => t.id !== id);
+                saveTasks();
+            }
+        }
+
+        async function toggleStatus(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                const wasPending = task.status !== 'completed';
+                task.status = wasPending ? 'completed' : 'pending';
+                saveTasks();
+
+                // If marked as completed, generate next task
+                if (wasPending) {
+                    await generateNextTask(task);
+                }
+            }
+        }
+
+        async function generateNextTask(completedTask) {
+            // Show simple toast/notification logic (simulated for now)
+            const btn = document.querySelector(`input[onchange="toggleStatus(${completedTask.id})"]`).parentElement;
+            const originalBorder = btn.querySelector('div').className;
+
+            // Visual feedback
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-primary text-black px-6 py-3 rounded-lg shadow-lg z-50 font-bold animate-bounce';
+            toast.textContent = '🎉 Task Done! AI is planning your next step...';
+            document.body.appendChild(toast);
+
+            try {
+                const userProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+                const response = await fetch('http://localhost:3000/api/generate-task', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ completedTask, userProfile })
+                });
+
+                if (!response.ok) throw new Error('Generation failed');
+
+                const newTaskData = await response.json();
+
+                // Calculate due date
+                const today = new Date();
+                today.setDate(today.getDate() + (newTaskData.due_offset || 2));
+
+                const newTask = {
+                    id: Date.now(),
+                    title: newTaskData.title,
+                    category: newTaskData.category,
+                    priority: newTaskData.priority,
+                    date: today.toISOString().split('T')[0],
+                    status: 'pending'
+                };
+
+                tasks.unshift(newTask);
+                saveTasks();
+
+                toast.textContent = '✨ New Task Added: ' + newTask.title;
+                setTimeout(() => toast.remove(), 4000);
+
+            } catch (e) {
+                console.error(e);
+                toast.textContent = '⚠️ AI could not generate next task.';
+                toast.classList.replace('bg-primary', 'bg-red-500');
+                toast.classList.replace('text-black', 'text-white');
+                setTimeout(() => toast.remove(), 3000);
+            }
+        }
+
+        // UI Logic
+        function toggleAddTask() {
+            const panel = document.getElementById('add-task-panel');
+            panel.classList.toggle('hidden');
+        }
+
+        function filterTasks(status) {
+            currentFilter = status;
+
+            // Update filter pills UI
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                if (btn.dataset.filter === status) {
+                    btn.classList.add('bg-white/10', 'text-white', 'shadow-sm');
+                    btn.classList.remove('text-slate-400');
+                } else {
+                    btn.classList.remove('bg-white/10', 'text-white', 'shadow-sm');
+                    btn.classList.add('text-slate-400');
+                }
+            });
+
+            renderTasks();
+        }
+
+        function renderTasks() {
+            const tbody = document.getElementById('task-list-body');
+            const emptyState = document.getElementById('empty-tasks');
+            tbody.innerHTML = '';
+
+            const filtered = tasks.filter(t => currentFilter === 'all' ? true : t.status === currentFilter);
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            filtered.forEach(task => {
+                const isDone = task.status === 'completed';
+
+                // Priority Colors
+                let priorityClass = 'bg-white/5 text-slate-400 border-white/5';
+                if (task.priority === 'High') priorityClass = 'bg-accent-pink/10 text-accent-pink border-accent-pink/20';
+                if (task.priority === 'Medium') priorityClass = 'bg-primary/10 text-primary border-primary/20';
+                if (task.priority === 'Low') priorityClass = 'bg-accent-teal/10 text-accent-teal border-accent-teal/20';
+
+                const due = new Date(task.date).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+
+                const tr = document.createElement('tr');
+                tr.className = 'group hover:bg-white/5 transition-colors';
+                tr.innerHTML = `
+                    <td class="px-6 py-4">
+                         <label class="custom-checkbox cursor-pointer relative block w-5 h-5">
+                            <input type="checkbox" class="sr-only" ${isDone ? 'checked' : ''} onchange="toggleStatus(${task.id})">
+                            <div class="w-5 h-5 rounded border border-slate-500 bg-transparent flex items-center justify-center transition-all duration-200 hover:border-primary">
+                                <span class="material-symbols-outlined text-navy-dark text-xs font-bold opacity-0 transition-opacity">check</span>
+                            </div>
+                        </label>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="font-medium text-white block ${isDone ? 'line-through text-slate-500' : ''}">${task.title}</span>
+                        <span class="md:hidden text-xs text-slate-500 mt-1 block">${task.category} • ${due}</span>
+                    </td>
+                    <td class="px-6 py-4 hidden md:table-cell">
+                        <span class="text-sm text-slate-300 bg-white/5 px-2 py-1 rounded border border-white/5">${task.category}</span>
+                    </td>
+                    <td class="px-6 py-4 hidden sm:table-cell text-sm text-slate-300 font-mono">${due}</td>
+                    <td class="px-6 py-4">
+                        <span class="text-xs font-bold px-2 py-1 rounded border ${priorityClass}">${task.priority}</span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <button onclick="deleteTask(${task.id})" class="text-slate-500 hover:text-accent-pink transition-colors p-1 opacity-0 group-hover:opacity-100">
+                            <span class="material-symbols-outlined text-[20px]">delete</span>
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function updateProgress() {
+            if (tasks.length === 0) return;
+
+            const completed = tasks.filter(t => t.status === 'completed').length;
+            const total = tasks.length;
+            const percent = Math.round((completed / total) * 100);
+
+            document.getElementById('task-progress-text').textContent = `${completed}/${total}`;
+
+            // SVG Circle Logic (100 is dasharray)
+            const circle = document.getElementById('task-progress-circle');
+            const offset = 100 - percent;
+            circle.style.strokeDashoffset = offset;
+        }
+
+        // Expose global
+        window.toggleAddTask = toggleAddTask;
+        window.filterTasks = filterTasks;
+        window.toggleStatus = toggleStatus;
+        window.deleteTask = deleteTask;
+
+    </script>
+</body>
+
+</html>

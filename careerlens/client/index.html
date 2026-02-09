@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CareerLens</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style type="text/tailwindcss">
+    :root {
+            --primary: #f2b32c;
+            --bg-dark: #0a0e1a;
+            --blob-blue: rgba(37, 99, 235, 0.2);
+            --blob-teal: rgba(20, 184, 166, 0.15);
+            --blob-pink: rgba(219, 39, 119, 0.15);
+        }
+        @layer utilities {
+            .glass-card {
+                background: rgba(255, 255, 255, 0.03);
+                backdrop-filter: blur(24px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .glow-focus:focus {
+                box-shadow: 0 0 20px rgba(242, 179, 44, 0.2);
+                border-color: rgba(242, 179, 44, 0.6) !important;
+                outline: none;
+            }
+            .blob {
+                filter: blur(120px);
+                z-index: 0;
+            }
+            .golden-gradient {
+                background: linear-gradient(135deg, #f2b32c 0%, #d97706 100%);
+            }
+        }
+    </style>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f2b32c",
+            "navy-dark": "#0a0e1a",
+          },
+          fontFamily: {
+            "display": ["Inter", "sans-serif"]
+          },
+        },
+      },
+    }
+  </script>
+</head>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
+</html>

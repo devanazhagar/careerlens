@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Habit Tracker</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <style type="text/tailwindcss">
+        :root {
+            --primary: #f2b32c;
+            --surface-dark: #00002E;
+            --bg-dark: #05051a;
+            --blob-1: rgba(215, 66, 94, 0.15);
+            --blob-2: rgba(72, 168, 226, 0.15);
+            --blob-3: rgba(89, 171, 169, 0.1);
+        }
+        @layer utilities {
+             .glass-card {
+                background: rgba(0, 0, 46, 0.85);
+                backdrop-filter: blur(24px);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            .glow-focus:focus-within {
+                box-shadow: 0 0 35px rgba(242, 179, 44, 0.15);
+                border-color: rgba(242, 179, 44, 0.5) !important;
+                outline: none;
+            }
+            .blob {
+                filter: blur(100px);
+                transition: background-color 2s ease;
+                z-index: 0;
+            }
+            :root {
+                color-scheme: dark;
+            }
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f2b32c",
+                        "navy-dark": "#05051a",
+                        "surface-dark": "#00002E",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .custom-checkbox input:checked+div {
+            background-color: #f2b32c;
+            border-color: #f2b32c;
+        }
+
+        .custom-checkbox input:checked+div span {
+            opacity: 1;
+        }
+    </style>
+</head>
+
+<body class="bg-[#05051a] font-display text-white min-h-screen relative overflow-x-hidden flex flex-col">
+    <!-- Blobs -->
+    <div class="fixed top-[5%] left-[-5%] w-[700px] h-[700px] bg-[var(--blob-1)] rounded-full blob pointer-events-none">
+    </div>
+    <div
+        class="fixed top-[30%] right-[-10%] w-[600px] h-[600px] bg-[var(--blob-2)] rounded-full blob pointer-events-none">
+    </div>
+    <div
+        class="fixed bottom-[-15%] left-[15%] w-[650px] h-[650px] bg-[var(--blob-3)] rounded-full blob pointer-events-none">
+    </div>
+
+    <div class="layout-container flex flex-col relative z-10 w-full max-w-4xl mx-auto px-4 md:px-8 py-10 flex-grow">
+
+        <!-- Header Section -->
+        <header class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+            <div class="space-y-2">
+                <button onclick="window.location.href='server/Dashboard.html'"
+                    class="text-sm font-medium text-slate-400 hover:text-primary transition-colors flex items-center gap-1 mb-2 group">
+                    <span
+                        class="material-symbols-outlined text-lg group-hover:-translate-x-1 transition-transform">arrow_back</span>
+                    Back to Dashboard
+                </button>
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white drop-shadow-sm">Habit Tracker</h1>
+                <p class="text-slate-400 italic">Build consistency, master your routine.</p>
+            </div>
+        </header>
+
+        <!-- Overall Progress Section -->
+        <div class="glass-card rounded-2xl p-8 mb-8 shadow-2xl relative overflow-hidden border-border-dark">
+            <!-- Top right decor -->
+            <div class="absolute top-0 right-0 p-4 opacity-5">
+                <span class="material-symbols-outlined text-9xl text-white">fact_check</span>
+            </div>
+
+            <div class="relative z-10">
+                <div class="flex justify-between items-end mb-4">
+                    <p class="text-white text-xs font-bold leading-normal uppercase tracking-[0.2em] opacity-70">Weekly
+                        Momentum</p>
+                    <p class="text-primary text-3xl font-black leading-normal drop-shadow-[0_0_10px_rgba(242,179,44,0.3)]"
+                        id="overall-score">0%</p>
+                </div>
+                <div class="rounded-full bg-white/5 h-3 overflow-hidden shadow-inner border border-white/5">
+                    <div id="overall-progress-bar"
+                        class="h-full rounded-full bg-gradient-to-r from-primary to-[#DD785E] transition-all duration-1000 ease-out"
+                        style="width: 0%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add Habit & List Container -->
+        <div class="glass-card rounded-2xl p-8 shadow-2xl space-y-8 border-border-dark">
+
+            <!-- Habit Input Form -->
+            <div class="p-6 bg-surface-dark/50 rounded-xl border border-white/5">
+                <h2 class="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Initialize New Habit</h2>
+                <form id="add-habit-form" class="flex flex-col md:flex-row gap-4">
+                    <div class="flex-1 relative focus-glow rounded-lg transition-all duration-200">
+                        <input type="text" id="habit-name" required
+                            class="w-full bg-black/20 border border-white/10 rounded-lg p-4 text-white placeholder-slate-600 focus:border-primary focus:ring-0 transition-all glow-focus"
+                            placeholder="E.g., Read technical docs, 5km Run, Meditation">
+                    </div>
+                    <div class="w-full md:w-48 relative focus-glow rounded-lg transition-all duration-200">
+                        <select id="habit-freq"
+                            class="w-full bg-black/20 border border-white/10 rounded-lg p-4 text-white focus:border-primary focus:ring-0 transition-all glow-focus appearance-none cursor-pointer">
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                        </select>
+                        <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
+                            <span class="material-symbols-outlined text-slate-400">arrow_drop_down</span>
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="bg-primary hover:bg-[#d99e1f] text-black font-black py-4 px-8 rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] shadow-[0_0_30px_rgba(242,179,44,0.2)] whitespace-nowrap">
+                        + Deploy Habit
+                    </button>
+                </form>
+            </div>
+
+            <!-- Habit List -->
+            <div id="habits-container" class="space-y-4">
+                <!-- Habits will be injected here via JS -->
+                <div id="empty-state" class="text-center py-10 hidden">
+                    <div class="inline-flex items-center justify-center p-4 bg-white/5 rounded-full mb-4">
+                        <span class="material-symbols-outlined text-slate-500 text-3xl">playlist_add</span>
+                    </div>
+                    <p class="text-slate-400">No habits tracked yet. Start by adding one above!</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('add-habit-form');
+            const habitInput = document.getElementById('habit-name');
+            const freqInput = document.getElementById('habit-freq');
+            const listContainer = document.getElementById('habits-container');
+            const emptyState = document.getElementById('empty-state');
+            const overallBar = document.getElementById('overall-progress-bar');
+            const overallScore = document.getElementById('overall-score');
+
+            // Load habits from local storage
+            let habits = JSON.parse(localStorage.getItem('myHabits')) || [];
+
+            // Check for resets daily
+            checkAndResetHabits();
+
+            function saveHabits() {
+                localStorage.setItem('myHabits', JSON.stringify(habits));
+                renderHabits();
+                updateOverallProgress();
+            }
+
+            function checkAndResetHabits() {
+                const today = new Date().toDateString();
+                const lastCheck = localStorage.getItem('lastHabitCheck');
+
+                if (lastCheck !== today) {
+                    // It's a new day
+                    habits.forEach(habit => {
+                        if (habit.freq === 'daily') {
+                            habit.completed = false;
+                        }
+                    });
+                    localStorage.setItem('lastHabitCheck', today);
+                    saveHabits();
+                }
+            }
+
+            function addHabit(e) {
+                e.preventDefault();
+                const name = habitInput.value.trim();
+                const freq = freqInput.value;
+                if (!name) return;
+
+                const newHabit = {
+                    id: Date.now(),
+                    name: name,
+                    freq: freq,
+                    completed: false,
+                    streak: 0
+                };
+
+                habits.push(newHabit);
+                habitInput.value = '';
+                saveHabits();
+            }
+
+            function toggleHabit(id) {
+                const habit = habits.find(h => h.id === id);
+                if (habit) {
+                    habit.completed = !habit.completed;
+                    if (habit.completed) habit.streak += 1;
+                    else habit.streak = Math.max(0, habit.streak - 1);
+                    saveHabits();
+                }
+            }
+
+            function deleteHabit(id) {
+                if (confirm('Delete this habit?')) {
+                    habits = habits.filter(h => h.id !== id);
+                    saveHabits();
+                }
+            }
+
+            function renderHabits() {
+                listContainer.innerHTML = '';
+
+                if (habits.length === 0) {
+                    listContainer.appendChild(emptyState);
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+
+                emptyState.classList.add('hidden');
+
+                habits.forEach(habit => {
+                    const el = document.createElement('div');
+                    el.className = `p-5 flex items-center gap-6 bg-surface-dark/40 border border-white/5 rounded-2xl transition-all duration-300 hover:border-primary/30 group relative overflow-hidden`;
+
+                    const progressPercent = habit.completed ? 100 : 0;
+
+                    el.innerHTML = `
+                        <!-- Selection Glow -->
+                        <div class="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+                        <!-- Custom Checkbox -->
+                        <label class="custom-checkbox cursor-pointer relative shrink-0 z-10">
+                            <input type="checkbox" class="sr-only" ${habit.completed ? 'checked' : ''} onchange="window.toggleHabit(${habit.id})">
+                            <div class="w-7 h-7 rounded-lg border-2 border-slate-600 bg-black/20 flex items-center justify-center transition-all duration-300 hover:border-primary">
+                                <span class="material-symbols-outlined text-black text-lg font-black opacity-0 transition-opacity">check</span>
+                            </div>
+                        </label>
+
+                        <div class="flex-1 min-w-0 z-10">
+                            <div class="flex justify-between items-start mb-3">
+                                <div class="space-y-1">
+                                    <h3 class="font-bold text-lg text-white truncate transition-all ${habit.completed ? 'line-through text-slate-500 opacity-60' : ''}">${habit.name}</h3>
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-[9px] font-black text-primary uppercase tracking-[0.15em] bg-primary/10 px-2 py-0.5 rounded border border-primary/20">${habit.freq}</span>
+                                        <span class="text-[9px] font-black text-accent-pink uppercase tracking-[0.15em] bg-accent-pink/10 px-2 py-0.5 rounded border border-accent-pink/20">${habit.streak} DAY STREAK 🔥</span>
+                                    </div>
+                                </div>
+                                <button onclick="window.deleteHabit(${habit.id})" class="text-slate-600 hover:text-accent-pink transition-colors opacity-0 group-hover:opacity-100 p-1">
+                                    <span class="material-symbols-outlined text-xl">delete</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Mini Progress Bar -->
+                            <div class="rounded-full bg-black/40 h-1.5 overflow-hidden w-full shadow-inner">
+                                <div class="h-full rounded-full bg-gradient-to-r from-primary to-accent-orange transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]" style="width: ${progressPercent}%;"></div>
+                            </div>
+                        </div>
+                    `;
+                    listContainer.appendChild(el);
+                });
+            }
+
+            function updateOverallProgress() {
+                if (habits.length === 0) {
+                    overallBar.style.width = '0%';
+                    overallScore.textContent = '0%';
+                    return;
+                }
+
+                const completedCount = habits.filter(h => h.completed).length;
+                const percent = Math.round((completedCount / habits.length) * 100);
+
+                overallBar.style.width = `${percent}%`;
+                overallScore.textContent = `${percent}%`;
+            }
+
+            // Expose functions globally
+            window.toggleHabit = toggleHabit;
+            window.deleteHabit = deleteHabit;
+
+            form.addEventListener('submit', addHabit);
+
+            // Initial render
+            renderHabits();
+            updateOverallProgress();
+        });
+    </script>
+</body>
+
+</html>

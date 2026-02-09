@@ -1,0 +1,257 @@
+@import './markdown.css';
+
+:root {
+  --primary: #F2B42D;
+  --secondary-1: #D7425E;
+  --secondary-2: #DD785E;
+  --secondary-3: #48A8E2;
+  --secondary-4: #59ABA9;
+  --card-bg: #00002E;
+  --text-main: #FFFFFF;
+
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: var(--text-main);
+  background-color: var(--card-bg);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background-color: var(--card-bg);
+  overflow-x: hidden;
+  cursor: none;
+  /* Hide default cursor */
+}
+
+/* Custom Cursor */
+.cursor-dot,
+.cursor-outline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary);
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--primary);
+  transition: width 0.2s, height 0.2s, background-color 0.2s;
+}
+
+/* Hover state for cursor */
+body:has(a:hover) .cursor-outline,
+body:has(button:hover) .cursor-outline,
+body:has(input:hover) .cursor-outline,
+body:has(.clickable:hover) .cursor-outline {
+  width: 60px;
+  height: 60px;
+  background-color: rgba(242, 180, 45, 0.1);
+  border-color: transparent;
+  backdrop-filter: blur(2px);
+}
+
+/* Background Gradients */
+.gradient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  background: var(--card-bg);
+  overflow: hidden;
+}
+
+.gradient-blob {
+  position: absolute;
+  filter: blur(80px);
+  opacity: 0.6;
+  border-radius: 50%;
+  animation: float 10s infinite ease-in-out;
+}
+
+.blob-1 {
+  top: -10%;
+  left: -10%;
+  width: 50vw;
+  height: 50vw;
+  background: var(--secondary-1);
+  animation-delay: 0s;
+}
+
+.blob-2 {
+  bottom: -10%;
+  right: -10%;
+  width: 40vw;
+  height: 40vw;
+  background: var(--secondary-3);
+  animation-delay: -2s;
+}
+
+.blob-3 {
+  top: 40%;
+  left: 40%;
+  width: 30vw;
+  height: 30vw;
+  background: var(--secondary-4);
+  opacity: 0.4;
+  animation-delay: -4s;
+}
+
+/* Smooth Scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Glassmorphism Utility */
+.glass-card {
+  background: rgba(0, 0, 46, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  border-radius: 24px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  50% {
+    transform: translate(30px, 20px);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-pop {
+  animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.animate-shimmer {
+  animation: shimmer 2s infinite;
+}
+
+/* Selection Color */
+::selection {
+  background: var(--primary);
+  color: var(--card-bg);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--card-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--secondary-3), var(--secondary-4));
+  border-radius: 4px;
+}
+
+
+/* Path Page Specific Styles */
+.glow-blue:hover {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.15);
+}
+
+.glow-teal:hover {
+  box-shadow: 0 0 30px rgba(20, 184, 166, 0.15);
+}
+
+.glow-pink:hover {
+  box-shadow: 0 0 30px rgba(236, 72, 153, 0.15);
+}
+
+.selected-card {
+  border: 2px solid #f2b32c !important;
+  background: rgba(242, 179, 44, 0.05);
+}
+
+.bg-background-light {
+  background-color: #f8f7f5;
+}
+
+.dark .bg-background-dark {
+  background-color: #0b0f1a;
+}
+
+@keyframes float-star {
+
+  0%,
+  100% {
+    transform: translateY(0px) translateX(0px);
+  }
+
+  33% {
+    transform: translateY(-15px) translateX(10px);
+  }
+
+  66% {
+    transform: translateY(5px) translateX(-10px);
+  }
+}
+
+.animate-float-star {
+  animation: float-star 6s ease-in-out infinite;
+}
