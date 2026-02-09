@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LinkedIn Profile Scraper</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="background-mesh"></div>
+
+    <main class="container">
+        <div class="glass-card">
+            <header class="card-header">
+                <div class="logo-icon">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                </div>
+                <h1>Profile Scraper</h1>
+                <p>Unlock insights from any LinkedIn profile instantly.</p>
+            </header>
+
+            <div class="divider">
+                <span>Get Started</span>
+            </div>
+
+            <button id="loginBtn" class="btn btn-primary btn-lg">
+                <i class="fa-brands fa-linkedin"></i>
+                <span>Login with LinkedIn</span>
+            </button>
+
+            <button id="disconnectBtn" class="btn btn-secondary btn-lg" style="display: none; background: #e11d48;">
+                <i class="fa-solid fa-power-off"></i>
+                <span>Disconnect Account</span>
+            </button>
+
+            <div class="divider">
+                <span>Or Scrape Directly</span>
+            </div>
+
+            <form id="scrapeForm" class="scrape-form">
+                <div class="input-group">
+                    <i class="fa-solid fa-link input-icon"></i>
+                    <input type="url" id="profileUrl" placeholder="Paste LinkedIn Profile URL" required
+                        autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-secondary btn-lg">
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>
+                    <span>Analyze Profile</span>
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

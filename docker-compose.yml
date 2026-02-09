@@ -1,0 +1,104 @@
+services:
+  # ========================================
+  # 1. CORE SERVICES (N8N & Cloudflare)
+  # ========================================
+  n8n:
+    image: n8nio/n8n:latest
+    restart: always
+    ports:
+      - "5678:5678"
+    environment:
+      # General Settings
+      - N8N_HOST=https://escloop-n8n.escloop-gym.com.de/
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=https
+      - WEBHOOK_URL=https://escloop-n8n.escloop-gym.com.de
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./local_files:/files
+    depends_on:
+      - cloudflared
+    networks:
+      - escloop_network
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    restart: always
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=eyJhIjoiOGZjMGY2YjAyYjIwNDhjNTU4NzFjMTUwMjE5MDUyMjEiLCJ0IjoiMzcyYWZjMjgtN2ZjOC00NzNhLTgxM2UtY2NhYWI2NmU3MTQ1IiwicyI6Ik1qaGhOamhpTXpRdFpXWmxNeTAwWm1GbUxUazNNekF0TVRaaU16RXlaV1JqTURVeSJ9
+    networks:
+      - escloop_network
+
+  # ========================================
+  # 2. EVOLUTION API DEPENDENCIES
+  # ========================================
+  postgres_02:
+    image: postgres:15
+    container_name: whatsapp_postgres_02
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=evolution
+    volumes:
+      - postgres_data_02:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - escloop_network
+
+  redis_02:
+    image: redis:alpine
+    container_name: whatsapp_redis_02
+    restart: always
+    command: [ "redis-server", "--appendonly", "yes" ]
+    volumes:
+      - redis_data_02:/data
+    networks:
+      - escloop_network
+
+  # ========================================
+  # 3. EVOLUTION API
+  # ========================================
+  evolution_api_02:
+    image: dev2917/escloop-evolution-api:latest
+    container_name: evolution_api_02
+    restart: always
+    ports:
+      - "8083:8080"
+    depends_on:
+      postgres_02:
+        condition: service_healthy
+      redis_02:
+        condition: service_started
+    environment:
+      # Database connection to postgres_02
+      - DATABASE_CONNECTION_URI=postgresql://postgres:password@postgres_02:5432/evolution?schema=public
+      # Redis connection to redis_02
+      - CACHE_REDIS_URI=redis://redis_02:6379/0
+      # Internal URL
+      - SERVER_URL=http://evolution_api_02:8080
+      - AUTHENTICATION_API_KEY=mySecretGlobalApiKey123
+    volumes:
+      - evolution_instances_02:/evolution/instances
+      - evolution_store_02:/evolution/store
+    networks:
+      - escloop_network
+
+# ========================================
+# VOLUMES & NETWORKS
+# ========================================
+volumes:
+  n8n_data:
+  postgres_data_02:
+  redis_data_02:
+  evolution_instances_02:
+  evolution_store_02:
+
+networks:
+  escloop_network:
+    driver: bridge

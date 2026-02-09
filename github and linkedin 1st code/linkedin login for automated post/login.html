@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect LinkedIn</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f3f2ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+        h2 { margin-bottom: 20px; color: #333; }
+        .linkedin-btn {
+            background-color: #0077b5;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 24px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            transition: background-color 0.2s;
+        }
+        .linkedin-btn:hover { background-color: #005582; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Connect Account</h2>
+        <p>Authorize us to post updates on your behalf.</p>
+        <br>
+        
+        <a href="https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=77t1ug94kb0mde&redirect_uri=https://escloop-n8n.escloop-gym.com.de/webhook/linkedin-auth&scope=w_member_social%20openid%20profile%20email" 
+           class="linkedin-btn">
+           Sign in with LinkedIn
+        </a>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FuturePath | Find Your Next Opportunity</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>FuturePath</h1>
+        <p class="subtitle">Your gateway to jobs, internships, and educational opportunities.</p>
+    </header>
+
+    <div class="container">
+        <!-- Job Search Card -->
+        <div class="search-card" id="job-search-card">
+            <div class="card-icon">💼</div>
+            <div class="card-header">
+                <h2 class="card-title">Job Search</h2>
+                <p class="card-desc">Find full-time opportunities nearby.</p>
+            </div>
+
+            <form id="job-search-form">
+                <div class="form-group">
+                    <label for="job-role">Job Role</label>
+                    <input type="text" id="job-role" placeholder="e.g. Software Engineer" required>
+                </div>
+                <div class="form-group">
+                    <label for="job-pincode">Location (City or Pincode)</label>
+                    <input type="text" id="job-pincode" placeholder="e.g. Bangalore or 560001" required>
+                </div>
+                <button type="submit" class="search-btn">
+                    Search Jobs
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- Internship Search Card -->
+        <div class="search-card" id="internship-search-card">
+            <div class="card-icon">🚀</div>
+            <div class="card-header">
+                <h2 class="card-title">Internships</h2>
+                <p class="card-desc">Kickstart your career with top companies.</p>
+            </div>
+
+            <form id="internship-search-form">
+                <div class="form-group">
+                    <label for="internship-city">City / Place</label>
+                    <input type="text" id="internship-city" placeholder="e.g. Bangalore" required>
+                </div>
+                <div class="form-group">
+                    <label for="internship-role">Role Area</label>
+                    <select id="internship-role" required>
+                        <option value="" disabled selected>Select a profile</option>
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                <button type="submit" class="search-btn">
+                    Find Internships
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </form>
+        </div>
+
+        <!-- College Search Card -->
+        <div class="search-card" id="college-search-card">
+            <div class="card-icon">🎓</div>
+            <div class="card-header">
+                <h2 class="card-title">Colleges</h2>
+                <p class="card-desc">Discover admissions open near you.</p>
+            </div>
+
+            <form id="college-search-form">
+                <div class="form-group">
+                    <label for="college-place">City</label>
+                    <input type="text" id="college-place" placeholder="e.g. Delhi NCR" required>
+                </div>
+                <div class="form-group">
+                    <label for="college-course">Course</label>
+                    <input type="text" id="college-course" placeholder="e.g. B.Tech, MBA" required>
+                </div>
+                <button type="submit" class="search-btn">
+                    Explore Colleges
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

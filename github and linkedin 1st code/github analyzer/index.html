@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI Code Reader</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            height: 100vh;
+            margin: 0;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 300px;
+            background: #f4f4f4;
+            padding: 20px;
+            overflow-y: auto;
+            border-right: 1px solid #ccc;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Main Login Area Styling */
+        #login-area {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #login-area input {
+            width: 90%;
+            padding: 8px;
+            margin-top: 10px;
+            margin-bottom: 5px;
+        }
+
+        #repo-select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        /* File List Styling */
+        .file-item {
+            cursor: pointer;
+            padding: 8px;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+        }
+
+        .file-item:hover {
+            background: #ddd;
+        }
+
+        /* Stack Info */
+        .stack-info {
+            background: #4CAF50;
+            color: white;
+            padding: 10px;
+            border-radius: 4px;
+            margin: 10px 0;
+            font-weight: bold;
+        }
+
+        /* File Section */
+        .file-section {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #444;
+            padding-bottom: 10px;
+        }
+
+        .file-header {
+            background: #2d2d2d;
+            color: #61dafb;
+            padding: 10px;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+
+        /* Code Display Area */
+        #main {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #code-display {
+            flex: 1;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            overflow: auto;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+        }
+
+        /* Buttons */
+        .btn {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-github {
+            background-color: #333;
+        }
+
+        .btn-manual {
+            background-color: #007bff;
+        }
+
+        /* Utility */
+        .hidden {
+            display: none !important;
+        }
+
+        .error {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="sidebar">
+        <h2>AI Reader</h2>
+
+        <div id="login-area">
+            <button class="btn btn-github" onclick="window.location.href='/login'">
+                Login with GitHub
+            </button>
+
+            <div style="text-align: center; margin: 10px 0; color: #666;">- OR -</div>
+
+            <input type="text" id="manual-token-input" placeholder="Paste Personal Access Token (ghp_...)">
+            <button class="btn btn-manual" onclick="useManualToken()">
+                Use Manual Token
+            </button>
+            <div id="login-error" class="error"></div>
+        </div>
+
+        <div id="app-controls" class="hidden">
+            <h3>Select Repository</h3>
+            <select id="repo-select">
+                <option>Loading repos...</option>
+            </select>
+
+            <div id="stack-info" style="margin-top: 15px;"></div>
+        </div>
+    </div>
+
+    <div id="main">
+        <h3 id="file-name">Welcome</h3>
+        <div id="code-display">// Select a file from the left to view code here...</div>
+    </div>
+
+    <script>
+        // GLOBAL TOKEN VARIABLE
+        let token = null;
+
+        // 1. Check if token came from OAuth Redirect (URL)
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get('token');
+
+        if (urlToken) {
+            token = urlToken;
+            initApp(); // Start the app immediately
+        }
+
+        // 2. Handle Manual Token Entry
+        function useManualToken() {
+            const input = document.getElementById('manual-token-input').value.trim();
+            if (!input) {
+                document.getElementById('login-error').innerText = "Please paste a token first.";
+                return;
+            }
+            token = input;
+            initApp();
+        }
+
+        // 3. Initialize App (Hide Login, Show Controls, Fetch Repos)
+        async function initApp() {
+            // UI Switch
+            document.getElementById('login-area').classList.add('hidden');
+            document.getElementById('app-controls').classList.remove('hidden');
+            document.getElementById('file-name').innerText = "Fetching your repositories...";
+
+            // Fetch Data
+            try {
+                await fetchRepos();
+                document.getElementById('file-name').innerText = "Select a file to view code";
+            } catch (error) {
+                alert("Invalid Token! The API rejected it.");
+                location.href = "/"; // Refresh to try again
+            }
+        }
+
+        // --- FETCH REPOS ---
+        async function fetchRepos() {
+            const res = await fetch('/api/repos', { headers: { 'Authorization': `token ${token}` } });
+
+            if (res.status === 401) throw new Error("Unauthorized"); // Bad token check
+
+            const repos = await res.json();
+            const select = document.getElementById('repo-select');
+            select.innerHTML = '<option>Select a Repository...</option>'; // Clear loading text
+
+            repos.forEach(repo => {
+                const option = document.createElement('option');
+                option.text = repo.name;
+                // Store useful data in the value
+                option.value = JSON.stringify({ owner: repo.owner.login, name: repo.name, branch: repo.default_branch });
+                select.add(option);
+            });
+        }
+
+        // --- ON REPO SELECT: DETECT STACK AND SHOW INTERESTING FILES ---
+        document.getElementById('repo-select').addEventListener('change', async (e) => {
+            if (e.target.selectedIndex === 0) return;
+
+            const repo = JSON.parse(e.target.value);
+
+            // Update UI
+            document.getElementById('file-name').innerText = "Analyzing repository...";
+            document.getElementById('code-display').innerText = "Detecting stack signatures...";
+            document.getElementById('stack-info').innerHTML = '';
+
+            try {
+                // Step 1: Detect Stack
+                const detectRes = await fetch(`/api/detect-stack?owner=${repo.owner}&repo=${repo.name}&branch=${repo.branch}`, {
+                    headers: { 'Authorization': `token ${token}` }
+                });
+                const { detectedStack, interestingFiles, fileTree } = await detectRes.json();
+
+                // Show detected stack in sidebar
+                const stackInfoDiv = document.getElementById('stack-info');
+                if (detectedStack) {
+                    stackInfoDiv.innerHTML = `<div class="stack-info">📦 Detected: ${detectedStack.replace('_', ' ').toUpperCase()}</div>`;
+                } else {
+                    stackInfoDiv.innerHTML = '<div style="color: orange; padding: 10px;">⚠️ No known stack detected</div>';
+                    document.getElementById('file-name').innerText = "No Stack Detected";
+                    document.getElementById('code-display').innerText = "This repository doesn't match any known technology stack signatures.";
+                    return;
+                }
+
+                // Step 2: Fetch content of interesting files
+                document.getElementById('file-name').innerText = `Loading ${interestingFiles.length} interesting files...`;
+                document.getElementById('code-display').innerText = "Fetching file contents...";
+
+                const contentRes = await fetch('/api/interesting-files-content', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        files: interestingFiles,
+                        owner: repo.owner,
+                        repo: repo.name,
+                        detectedStack: detectedStack,
+                        fileTree: fileTree
+                    })
+                });
+                const filesWithContent = await contentRes.json();
+
+                // Step 3: Display all files with their content
+                displayMultipleFiles(filesWithContent, detectedStack);
+
+            } catch (error) {
+                document.getElementById('file-name').innerText = "Error";
+                document.getElementById('code-display').innerText = `Error: ${error.message}`;
+            }
+        });
+
+        // --- DISPLAY MULTIPLE FILES ---
+        function displayMultipleFiles(files, stackName) {
+            document.getElementById('file-name').innerText = `📁 ${stackName.replace('_', ' ').toUpperCase()} - Interesting Files`;
+
+            let displayHTML = '';
+
+            files.forEach(file => {
+                if (file.error) {
+                    displayHTML += `<div class="file-section">`;
+                    displayHTML += `<div class="file-header">❌ ${file.path}</div>`;
+                    displayHTML += `<div style="color: #ff6b6b; padding: 10px;">Error: ${file.error}</div>`;
+                    displayHTML += `</div>`;
+                } else {
+                    const content = typeof file.content === 'object'
+                        ? JSON.stringify(file.content, null, 2)
+                        : file.content;
+
+                    displayHTML += `<div class="file-section">`;
+                    displayHTML += `<div class="file-header">📄 ${file.path}</div>`;
+                    displayHTML += `<pre style="white-space: pre-wrap; word-wrap: break-word;">${escapeHtml(content)}</pre>`;
+                    displayHTML += `</div>`;
+                }
+            });
+
+            if (files.length === 0) {
+                displayHTML = '<div style="padding: 20px; color: #888;">No interesting files found for this stack.</div>';
+            }
+
+            document.getElementById('code-display').innerHTML = displayHTML;
+        }
+
+        // Helper function to escape HTML
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+    </script>
+</body>
+
+</html>
